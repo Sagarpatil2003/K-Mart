@@ -1,0 +1,507 @@
+<!DOCTYPE html><html lang="en">
+<!-- Mirrored from html.design/demo/rufam/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 18 Jun 2022 09:34:21 GMT -->
+<head><meta charset="utf-8"/>
+<script data-ezscrex='false' data-cfasync='false' data-pagespeed-no-defer>var __ez=__ez||{};__ez.stms=Date.now();__ez.evt={};__ez.script={};__ez.ck=__ez.ck||{};__ez.template={};__ez.template.isOrig=true;__ez.queue=(function(){var count=0,incr=0,items=[],timeDelayFired=false,hpItems=[],lpItems=[],allowLoad=true;var obj={func:function(name,funcName,parameters,isBlock,blockedBy,deleteWhenComplete,proceedIfError){var self=this;this.name=name;this.funcName=funcName;this.parameters=parameters===null?null:(parameters instanceof Array)?parameters:[parameters];this.isBlock=isBlock;this.blockedBy=blockedBy;this.deleteWhenComplete=deleteWhenComplete;this.isError=false;this.isComplete=false;this.isInitialized=false;this.proceedIfError=proceedIfError;this.isTimeDelay=false;this.process=function(){log("... func = "+name);self.isInitialized=true;self.isComplete=true;log("... func.apply: "+name);var funcs=self.funcName.split('.');var func=null;if(funcs.length>3){}else if(funcs.length===3){func=window[funcs[0]][funcs[1]][funcs[2]];}else if(funcs.length===2){func=window[funcs[0]][funcs[1]];}else{func=window[self.funcName];}
+if(typeof func!=='undefined'&&func!==null){func.apply(null,this.parameters);}
+if(self.deleteWhenComplete===true)delete items[name];if(self.isBlock===true){log("----- F'D: "+self.name);processAll();}}},file:function(name,path,isBlock,blockedBy,async,defer,proceedIfError){var self=this;this.name=name;this.path=path;this.async=async;this.defer=defer;this.isBlock=isBlock;this.blockedBy=blockedBy;this.isInitialized=false;this.isError=false;this.isComplete=false;this.proceedIfError=proceedIfError;this.isTimeDelay=false;this.process=function(){self.isInitialized=true;log("... file = "+name);var scr=document.createElement('script');scr.src=path;if(async===true)scr.async=true;else if(defer===true)scr.defer=true;scr.onerror=function(){log("----- ERR'D: "+self.name);self.isError=true;if(self.isBlock===true){processAll();}};scr.onreadystatechange=scr.onload=function(){var state=scr.readyState;log("----- F'D: "+self.name);if((!state||/loaded|complete/.test(state))){self.isComplete=true;if(self.isBlock===true){processAll();}}};document.getElementsByTagName('head')[0].appendChild(scr);}},fileLoaded:function(name,isComplete){this.name=name;this.path="";this.async=false;this.defer=false;this.isBlock=false;this.blockedBy=[];this.isInitialized=true;this.isError=false;this.isComplete=isComplete;this.proceedIfError=false;this.isTimeDelay=false;this.process=function(){};}};function init(){window.addEventListener("load",function(){setTimeout(function(){timeDelayFired=true;log('TDELAY -----');processAll();},5000);},false);}
+function addFile(name,path,isBlock,blockedBy,async,defer,proceedIfError,priority){var item=new obj.file(name,path,isBlock,blockedBy,async,defer,proceedIfError);if(priority===true){hpItems[name]=item}else{lpItems[name]=item}
+items[name]=item;checkIfBlocked(item);}
+function setallowLoad(settobool){allowLoad=settobool}
+function addFunc(name,func,parameters,isBlock,blockedBy,autoInc,deleteWhenComplete,proceedIfError,priority){if(autoInc===true)name=name+"_"+incr++;var item=new obj.func(name,func,parameters,isBlock,blockedBy,deleteWhenComplete,proceedIfError);if(priority===true){hpItems[name]=item}else{lpItems[name]=item}
+items[name]=item;checkIfBlocked(item);}
+function addTimeDelayFile(name,path){var item=new obj.file(name,path,false,[],false,false,true);item.isTimeDelay=true;log(name+' ... '+' FILE! TDELAY');lpItems[name]=item;items[name]=item;checkIfBlocked(item);}
+function addTimeDelayFunc(name,func,parameters){var item=new obj.func(name,func,parameters,false,[],true,true);item.isTimeDelay=true;log(name+' ... '+' FUNCTION! TDELAY');lpItems[name]=item;items[name]=item;checkIfBlocked(item);}
+function checkIfBlocked(item){if(isBlocked(item)===true||allowLoad==false)return;item.process();}
+function isBlocked(item){if(item.isTimeDelay===true&&timeDelayFired===false){log(item.name+" blocked = TIME DELAY!");return true;}
+if(item.blockedBy instanceof Array){for(var i=0;i<item.blockedBy.length;i++){var block=item.blockedBy[i];if(items.hasOwnProperty(block)===false){log(item.name+" blocked = "+block);return true;}else if(item.proceedIfError===true&&items[block].isError===true){return false;}else if(items[block].isComplete===false){log(item.name+" blocked = "+block);return true;}}}
+return false;}
+function markLoaded(filename){if(!filename||0===filename.length){return;}
+if(filename in items){var item=items[filename];if(item.isComplete===true){log(item.name+' '+filename+': error loaded duplicate')}else{item.isComplete=true;item.isInitialized=true;}}else{items[filename]=new obj.fileLoaded(filename,true);}
+log("markLoaded dummyfile: "+items[filename].name);}
+function logWhatsBlocked(){for(var i in items){if(items.hasOwnProperty(i)===false)continue;var item=items[i];isBlocked(item)}}
+function log(msg){var href=window.location.href;var reg=new RegExp('[?&]ezq=([^&#]*)','i');var string=reg.exec(href);var res=string?string[1]:null;if(res==="1")console.debug(msg);}
+function processAll(){count++;if(count>200)return;log("let's go");processItems(hpItems);processItems(lpItems);}
+function processItems(list){for(var i in list){if(list.hasOwnProperty(i)===false)continue;var item=list[i];if(item.isComplete===true||isBlocked(item)||item.isInitialized===true||item.isError===true){if(item.isError===true){log(item.name+': error')}else if(item.isComplete===true){log(item.name+': complete already')}else if(item.isInitialized===true){log(item.name+': initialized already')}}else{item.process();}}}
+init();return{addFile:addFile,addDelayFile:addTimeDelayFile,addFunc:addFunc,addDelayFunc:addTimeDelayFunc,items:items,processAll:processAll,setallowLoad:setallowLoad,markLoaded:markLoaded,logWhatsBlocked:logWhatsBlocked,};})();__ez.evt.add=function(e,t,n){e.addEventListener?e.addEventListener(t,n,!1):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n()},__ez.evt.remove=function(e,t,n){e.removeEventListener?e.removeEventListener(t,n,!1):e.detachEvent?e.detachEvent("on"+t,n):delete e["on"+t]};__ez.script.add=function(e){var t=document.createElement("script");t.src=e,t.async=!0,t.type="text/javascript",document.getElementsByTagName("head")[0].appendChild(t)};__ez.dot={};__ez.queue.addFile('../../detroitchicago/boise.js', '../../detroitchicago/boise7697.js?gcb=195-0&amp;cb=1', true, [], true, false, true, false);__ez.queue.addFile('../../detroitchicago/memphis.js', '../../detroitchicago/memphis497c.js?gcb=195-0&amp;cb=16', true, [], true, false, true, false);__ez.queue.addFile('../../detroitchicago/minneapolis.js', '../../detroitchicago/minneapolis42b7.js?gcb=195-0&amp;cb=3', true, [], true, false, true, false);__ez.queue.addFile('../../detroitchicago/rochester.js', '../../detroitchicago/rochester0d65.js?gcb=195-0&amp;cb=12', false, ['/detroitchicago/memphis.js','/detroitchicago/minneapolis.js'], true, false, true, false);__ez.vep=(function(){var pixels=[],pxURL="../../detroitchicago/grapefruit.gif";function AddPixel(vID,pixelData){if(__ez.dot.isDefined(vID)&&__ez.dot.isValid(pixelData)){pixels.push({type:'video',video_impression_id:vID,domain_id:__ez.dot.getDID(),t_epoch:__ez.dot.getEpoch(0),data:__ez.dot.dataToStr(pixelData)});}}
+function Fire(){if(typeof document.visibilityState!=='undefined'&&document.visibilityState==="prerender"){return;}
+if(__ez.dot.isDefined(pixels)&&pixels.length>0){while(pixels.length>0){var j=5;if(j>pixels.length){j=pixels.length;}
+var pushPixels=pixels.splice(0,j);var pixelURL=__ez.dot.getURL(pxURL)+"?orig="+(__ez.template.isOrig===true?1:0)+"&v="+btoa(JSON.stringify(pushPixels));__ez.dot.Fire(pixelURL);}}
+pixels=[];}
+return{Add:AddPixel,Fire:Fire};})();</script><script data-ezscrex='false' data-cfasync='false' data-pagespeed-no-defer>__ez.pel=(function(){var pixels=[],pxURL="../../porpoiseant/army.gif";function AddAndFirePixel(adSlot,pixelData){AddPixel(adSlot,pixelData,0,0,0,0,0);Fire();}
+function AddAndFireOrigPixel(adSlot,pixelData){AddPixel(adSlot,pixelData,0,0,0,0,0,true);Fire();}
+function GetCurrentPixels(){return pixels;}
+function AddPixel(adSlot,pixelData,revenue,est_revenue,bid_floor_filled,bid_floor_prev,stat_source_id,isOrig){if(!__ez.dot.isDefined(adSlot)||__ez.dot.isAnyDefined(adSlot.getSlotElementId,adSlot.ElementId)==false){return;}
+if(typeof isOrig==='undefined'){isOrig=false;}
+var ad_position_id=parseInt(__ez.dot.getTargeting(adSlot,'ap'));var impId=__ez.dot.getSlotIID(adSlot),adUnit=__ez.dot.getAdUnit(adSlot,isOrig);var compId=parseInt(__ez.dot.getTargeting(adSlot,"compid"));var lineItemId=0;var creativeId=0;var ezimData=getEzimData(adSlot);if(typeof ezimData=='object'){if(ezimData.creative_id!==undefined){creativeId=ezimData.creative_id;}
+if(ezimData.line_item_id!==undefined){lineItemId=ezimData.line_item_id;}}
+if(__ez.dot.isDefined(impId,adUnit)&&__ez.dot.isValid(pixelData)){if((impId!=="0"||isOrig===true)&&adUnit!==""){pixels.push({type:"impression",impression_id:impId,domain_id:__ez.dot.getDID(),unit:adUnit,t_epoch:__ez.dot.getEpoch(0),revenue:revenue,est_revenue:est_revenue,ad_position:ad_position_id,ad_size:"",bid_floor_filled:bid_floor_filled,bid_floor_prev:bid_floor_prev,stat_source_id:stat_source_id,country_code:__ez.dot.getCC(),pageview_id:__ez.dot.getPageviewId(),comp_id:compId,line_item_id:lineItemId,creative_id:creativeId,data:__ez.dot.dataToStr(pixelData),is_orig:isOrig||__ez.template.isOrig,});}}}
+function AddPixelById(impFullId,pixelData,isOrig,revenue){var vals=impFullId.split('https://html.design/');if(__ez.dot.isDefined(impFullId)&&vals.length===3&&__ez.dot.isValid(pixelData)){var adUnit=vals[0],impId=vals[2];var pix={type:"impression",impression_id:impId,domain_id:__ez.dot.getDID(),unit:adUnit,t_epoch:__ez.dot.getEpoch(0),pageview_id:__ez.dot.getPageviewId(),data:__ez.dot.dataToStr(pixelData),is_orig:isOrig||__ez.template.isOrig};if(typeof revenue!=='undefined'){pix.revenue=revenue;}
+pixels.push(pix);}}
+function Fire(){if(typeof document.visibilityState!=='undefined'&&document.visibilityState==="prerender")return;if(__ez.dot.isDefined(pixels)&&pixels.length>0){var allPixels=[pixels.filter(function(pixel){return pixel.is_orig}),pixels.filter(function(pixel){return!pixel.is_orig})];allPixels.forEach(function(pixels){while(pixels.length>0){var isOrig=pixels[0].is_orig||false;var j=5;if(j>pixels.length){j=pixels.length;}
+var pushPixels=pixels.splice(0,j);var pixelURL=__ez.dot.getURL(pxURL)+"?orig="+(isOrig===true?1:0)+"&sts="+btoa(JSON.stringify(pushPixels));if(typeof window.isAmp!=='undefined'&&isAmp&&typeof window._ezaq!=='undefined'&&_ezaq.hasOwnProperty("domain_id")){pixelURL+="&visit_uuid="+_ezaq['visit_uuid'];}
+__ez.dot.Fire(pixelURL);}});}
+pixels=[];}
+function getEzimData(adSlot){if(typeof _ezim_d=="undefined"){return false;}
+var adUnitName=__ez.dot.getAdUnitPath(adSlot).split('https://html.design/').pop();if(typeof _ezim_d==='object'&&_ezim_d.hasOwnProperty(adUnitName)){return _ezim_d[adUnitName];}
+for(var ezimKey in _ezim_d){if(ezimKey.split('https://html.design/').pop()===adUnitName){return _ezim_d[ezimKey];}}
+return false;}
+return{Add:AddPixel,AddAndFire:AddAndFirePixel,AddAndFireOrig:AddAndFireOrigPixel,AddById:AddPixelById,Fire:Fire,GetPixels:GetCurrentPixels,};})();__ez.queue.addFile('../../detroitchicago/raleigh.js', '../../detroitchicago/raleigh45f7.js?gcb=195-0&amp;cb=5', false, [], true, false, true, false);__ez.queue.addFile('../../detroitchicago/tampa.js', '../../detroitchicago/tampa453e.js?gcb=195-0&amp;cb=4', false, [], true, false, true, false);</script>
+<script data-ezscrex="false" data-cfasync="false">(function(){if("function"===typeof window.CustomEvent)return!1;window.CustomEvent=function(c,a){a=a||{bubbles:!1,cancelable:!1,detail:null};var b=document.createEvent("CustomEvent");b.initCustomEvent(c,a.bubbles,a.cancelable,a.detail);return b}})();</script><script data-ezscrex="false" data-cfasync="false">__ez.queue.addFile('../../detroitchicago/tulsa.js', '../../detroitchicago/tulsa2693.js?gcb=195-0&amp;cb=6', false, [], true, false, true, false);</script>
+      <!-- basic -->
+      
+      <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+      <!-- mobile metas -->
+      <meta name="viewport" content="width=device-width, initial-scale=1"/>
+      <meta name="viewport" content="initial-scale=1, maximum-scale=1"/>
+      <!-- site metas -->
+      <title>Rufam - E-commerce Bootstrap 4 HTML Template</title>
+      <meta name="keywords" content=""/>
+      <meta name="description" content=""/>
+      <meta name="author" content=""/>
+      <!-- bootstrap css -->
+      <link rel="stylesheet" href="css/bootstrap.min.css"/>
+      <!-- style css -->
+      <link rel="stylesheet" href="css/style.css"/>
+      <!-- Responsive-->
+      <link rel="stylesheet" href="css/responsive.css"/>
+      <!-- custom css -->
+      <link rel="stylesheet" href="css/custom.css"/>
+      <!-- Revolution Loaling Fonts and Icons  -->
+      <link rel="stylesheet" href="js/revolution/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css"/>
+      <!-- Revolution style Sheets  -->
+      <link rel="stylesheet" href="js/revolution/css/settings.css"/>
+      <link rel="stylesheet" href="js/revolution/css/layers.css"/>
+      <link rel="stylesheet" href="js/revolution/css/navigation.css"/>
+      <!-- fevicon -->
+      <link rel="icon" href="#" type="image/gif"/>
+      <!-- Scrollbar Custom CSS -->
+      <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css"/>
+      <!-- Tweaks for older IEs-->
+      <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+   <link rel='canonical' href='index-2.html' />
+<script type="text/javascript">var ezouid = "1";</script><base ><script type='text/javascript'>
+var ezoTemplate = 'old_site_noads';
+if(typeof ezouid == 'undefined')
+{
+    var ezouid = 'none';
+}
+var ezoFormfactor = '1';
+var ezo_elements_to_check = Array();
+</script><!-- START EZHEAD -->
+<script data-ezscrex="false" type='text/javascript'>
+var soc_app_id = '0';
+var did = 317139;
+var ezdomain = 'html.design';
+var ezoicSearchable = 1;
+</script>
+<!--{jquery}-->
+<!-- END EZHEAD -->
+<script data-ezscrex="false" type="text/javascript" data-cfasync="false">var _ezaq = {"ad_cache_level":0,"ad_lazyload_version":0,"ad_load_version":0,"city":"Mumbai","country":"IN","days_since_last_visit":-1,"domain_id":317139,"engaged_time_visit":0,"ezcache_level":2,"ezcache_skip_code":0,"form_factor_id":1,"framework_id":1,"is_return_visitor":false,"is_sitespeed":0,"last_page_load":"","last_pageview_id":"","lt_cache_level":0,"metro_code":0,"page_ad_positions":"","page_view_count":0,"page_view_id":"2ce08f36-c029-4ec6-40c4-be9179e6995b","position_selection_id":0,"postal_code":"400070","pv_event_count":0,"response_size_orig":78390,"response_time_orig":4,"serverid":"18.136.104.138:11564","state":"MH","t_epoch":1655544825,"template_id":120,"time_on_site_visit":0,"url":"https://html.design/demo/rufam/index.html","user_id":0,"word_count":864,"worst_bad_word_level":0};var _ezExtraQueries = "&ez_orig=1";</script>
+<script data-ezscrex='false' data-pagespeed-no-defer data-cfasync='false'>
+function create_ezolpl(pvID, rv) {
+    var d = new Date();
+    d.setTime(d.getTime() + (365*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    __ez.ck.setByCat("ezux_lpl_317139=" + new Date().getTime() + "|" + pvID + "|" + rv + "; " + expires, 3);
+}
+function attach_ezolpl(pvID, rv) {
+    if (document.readyState === "complete") {
+        create_ezolpl(pvID, rv);
+    }
+    if(window.attachEvent) {
+        window.attachEvent("onload", create_ezolpl, pvID, rv);
+    } else {
+        if(window.onload) {
+            var curronload = window.onload;
+            var newonload = function(evt) {
+                curronload(evt);
+                create_ezolpl(pvID, rv);
+            };
+            window.onload = newonload;
+        } else {
+            window.onload = create_ezolpl.bind(null, pvID, rv);
+        }
+    }
+}
+
+__ez.queue.addFunc("attach_ezolpl", "attach_ezolpl", ["2ce08f36-c029-4ec6-40c4-be9179e6995b", "false"], false, ['/detroitchicago/boise.js'], true, false, false, false);
+</script></head>
+   <!-- body -->
+   <body class="main-layout">
+      <!-- loader  -->
+      <div class="loader_bg">
+         <div class="loader"><img src="images/loading.gif" alt=""/></div>
+      </div>
+      <!-- end loader -->
+      <!-- sidebar -->
+      <div id="wrapper">
+         <nav id="sidebar" class="active">
+            <!-- Sidebar Header -->
+            <div class="sidebar-inner">
+               <h3>All Categories</h3>
+               <!-- Sidebar Links -->
+               <ul class="list-unstyled components">
+                  <li>
+                     <a href="shop.html">Electronic</a>
+                     <ul>
+                        <li><a href="shop.html">Accesories</a></li>
+                        <li><a href="shop.html">Desktop pc</a></li>
+                        <li><a href="shop.html">Camera</a></li>
+                        <li><a href="shop.html">Smart Phone &amp; Tablet</a></li>
+                        <li><a href="shop.html">Laptop</a></li>
+                        <li><a href="shop.html">Sport &amp; Game</a></li>
+                     </ul>
+                  </li>
+                  <li>
+                     <a href="#">Fashion</a>
+                     <ul>
+                        <li>
+                           <a href="shop.html">Men</a>
+                           <ul>
+                              <li>
+                                 <a href="shop.html">Clothes</a>
+                                 <ul>
+                                    <li><a href="shop.html">Jackets</a></li>
+                                    <li><a href="shop.html">Jeans</a></li>
+                                    <li><a href="shop.html">&gt; See All</a></li>
+                                 </ul>
+                              </li>
+                              <li><a href="shop.html">Shoes</a></li>
+                              <li><a href="shop.html">Watchs</a></li>
+                              <li><a href="shop.html">See all</a></li>
+                           </ul>
+                        </li>
+                        <li>
+                           <a href="shop.html">Women</a>
+                           <ul>
+                              <li>
+                                 <a href="shop.html">Clothes</a>
+                                 <ul>
+                                    <li><a href="shop.html">Dress</a></li>
+                                    <li><a href="shop.html">Jeans</a></li>
+                                    <li><a href="shop.html">&gt; See All</a></li>
+                                 </ul>
+                              </li>
+                              <li><a href="shop.html">Shoes</a></li>
+                              <li><a href="shop.html">Watchs</a></li>
+                              <li><a href="shop.html">See all</a></li>
+                           </ul>
+                        </li>
+                     </ul>
+                  </li>
+               </ul>
+            </div>
+         </nav>
+      </div>
+      <!-- end sidebar -->
+      <!-- header -->
+      <header>
+         <!-- header top -->
+         <div class="header_top">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-12">
+                     <div class="full">
+                        <div class="float-left">
+                           <ul>
+                              <li>Rufam E-commerce</li>
+                              <li class="infor_devide">|</li>
+                              <li>Every Brands Products Available</li>
+                              <li class="infor_devide">|</li>
+                              <li>Fast Returnings</li>
+                              <li class="infor_devide">|</li>
+                              <li>No Extra Charges</li>
+                           </ul>
+                        </div>
+                        <div class="float-right">
+                           <ul>
+                              <li>Track your order</li>
+                              <li class="infor_devide">|</li>
+                              <li class="dropdown-toggle" data-toggle="dropdown">Dollar (US)</li>
+                              <li class="dropdown-menu"> <a class="dropdown-item" href="#">Dollar (US)</a> <a class="dropdown-item" href="#">Dollar (US)</a> <a class="dropdown-item" href="#">Dollar (US)</a> </li>
+                              <li class="infor_devide">|</li>
+                              <li><a href="login_register.html">Login &amp; register</a></li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- header top end -->
+         <!-- header middle -->
+         <div class="header_middle">
+            <div class="container">
+               <div class="row">
+                  <div class="col-lg-3">
+                     <div class="full">
+                        <div class="center-desk">
+                           <div class="logo"> <a href="index-2.html"><img src="images/logo.png" alt="#"/></a> </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-9">
+                     <div class="search_style">
+                        <div class="top_search_bar">
+                           <form action="#">
+                              <fieldset>
+                                 <div class="field">
+                                    <input placeholder="Enter your email address" type="email"/>
+                                    <div class="search_catry_bt">
+                                       <select class="selectpicker">
+                                          <option>All categories</option>
+                                          <option>categories one</option>
+                                          <option>categories two</option>
+                                       </select>
+                                       <button class="submit_search">Search</button>
+                                    </div>
+                                 </div>
+                              </fieldset>
+                           </form>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- end header middle -->
+         <!-- header bottom -->
+         <div class="header_bottom">
+            <div class="container">
+               <div class="row">
+                  <div class="col-lg-8">
+                     <div class="sidebar_menu">
+                        <button type="button" id="sidebarCollapse" class="navbar-btn active">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        </button>
+                     </div>
+                     <div class="menu-area">
+                        <div class="limit-box">
+                           <nav class="main-menu">
+                              <ul class="menu-area-main">
+                                 <li class="active">
+                                    <a href="index-2.html">Home</a>
+                                 </li>
+                                 <li><a href="about.html">About us</a></li>
+                                 <li>
+                                    <a href="shop.html">Shop <span class="caret"><i class="fa fa-angle-down" aria-hidden="true"></i></span></a>
+                                    <ul class="sub-down simple-down">
+                                       <li><a href="shopping_cart.html"><i class="fa fa-angle-right"></i> Shopping Cart</a></li>
+                                       <li><a href="checkout.html"><i class="fa fa-angle-right"></i> Checkout</a></li>
+                                    </ul>
+                                 </li>
+                                 <li>
+                                    <a href="#">Pages <span class="caret"><i class="fa fa-angle-down" aria-hidden="true"></i></span></a>
+                                    <ul class="sub-down simple-down">
+                                       <li><a href="about.html"><i class="fa fa-angle-right"></i> About</a></li>
+                                       <li><a href="product_list.html"><i class="fa fa-angle-right"></i> Product list</a></li>
+                                       <li><a href="product_grid.html"><i class="fa fa-angle-right"></i> Product Grid</a></li>
+                                       <li><a href="product_detail.html"><i class="fa fa-angle-right"></i> Product Details</a></li>
+                                       <li><a href="myaccount.html"><i class="fa fa-angle-right"></i> My Account</a></li>
+                                       <li><a href="login.html"><i class="fa fa-angle-right"></i> Login</a></li>
+                                       <li><a href="register.html"><i class="fa fa-angle-right"></i> Register</a></li>
+                                       <li><a href="faq.html"><i class="fa fa-angle-right"></i> Faq</a></li>
+                                       <li><a href="error.html"><i class="fa fa-angle-right"></i> 404 Error</a></li>
+                                    </ul>
+                                 </li>
+                                 <li>
+                                    <a href="#">Blog <span class="caret"><i class="fa fa-angle-down" aria-hidden="true"></i></span></a>
+                                    <ul class="sub-down simple-down">
+                                       <li><a href="blog_list.html"><i class="fa fa-angle-right"></i> Blog List</a></li>
+                                       <li><a href="blog_grid.html"><i class="fa fa-angle-right"></i> Blog Grid</a></li>
+                                       <li><a href="blog_detail.html"><i class="fa fa-angle-right"></i> Blog Details</a></li>
+                                    </ul>
+                                 </li>
+                                 <li><a href="contact.html">Contact us</a></li>
+                              </ul>
+                           </nav>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-4">
+                     <div class="full center">
+                        <div class="right_cart_section">
+                           <ul class="cart_icons">
+                              <li><i class="fa fa-refresh"></i> 0</li>
+                              <li><a href="shop-cart.html"><i class="fa fa-heart-o"></i> 0</a></li>
+                              <li><a href="shop-cart.html"><i class="fa fa-shopping-bag"></i>0</a></li>
+                           </ul>
+                           <ul class="cart_update">
+                              <li>Your cart<br/>
+                                 <span>$350,00</span>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- end header bottom -->
+      </header>
+      <!-- end header -->
+  
+      <!-- footer -->
+      <footer>
+         <div class="footer_top">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-12 col-lg-4">
+                     <div class="footer_info">
+                        <h3>Contact Info</h3>
+                        <div class="footer_info_inner">
+                           <ul class="bottom_cont">
+                              <li><i class="fa fa-map-marker" aria-hidden="true"></i> 8386 Keyshawn Springs Suite 214</li>
+                              <li><i class="fa fa-phone" aria-hidden="true"></i> <a href="tel:9876543210">9876 543 210</a></li>
+                              <li><i class="fa fa-envelope" aria-hidden="true"></i> <a href="https://html.design/cdn-cgi/l/email-protection#791d1c1416391e14181015571a1614"><span class="__cf_email__" data-cfemail="652100080a250208040c094b060a08">[email&#160;protected]</span></a></li>
+                           </ul>
+                           <ul class="social_icon">
+                              <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                              <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                              <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                              <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                              <li><a href="#"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                              <li><a href="#"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a></li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-md-12 col-lg-8">
+                     <div class="footer_links">
+                        <h3>Usefull Links</h3>
+                        <div class="ul_list_f_menu">
+                           <ul>
+                              <li><strong>Information</strong></li>
+                              <li><a href="about.html">&gt; About</a></li>
+                              <li><a href="faq.html">&gt; FAQ</a></li>
+                              <li><a href="#">&gt; Advanced Search</a></li>
+                              <li><a href="contact.html">&gt; Contact us</a></li>
+                           </ul>
+                           <ul>
+                              <li><strong>Account</strong></li>
+                              <li><a href="myaccount.html">&gt; My Account</a></li>
+                              <li><a href="#">&gt; Order History</a></li>
+                              <li><a href="#">&gt; Wishlist</a></li>
+                              <li><a href="#">&gt; Specials</a></li>
+                           </ul>
+                           <ul>
+                              <li><strong>Services</strong></li>
+                              <li><a href="#">&gt; Discount</a></li>
+                              <li><a href="#">&gt; Return Policy</a></li>
+                              <li><a href="#">&gt; Customer Service</a></li>
+                              <li><a href="#">&gt; Term &amp; Condition</a></li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row margin_top_50">
+                  <div class="col-lg-3 col-md-6">
+                     <div class="full">
+                        <div class="process_blog">
+                           <div class="step_no">
+                              <p><i class="fa fa-truck"></i></p>
+                           </div>
+                           <div class="step_infor">
+                              <p class="step_head">Free Shipping on</p>
+                              <p class="step_cont">Order over $75</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-3 col-md-6">
+                     <div class="full">
+                        <div class="process_blog">
+                           <div class="step_no">
+                              <p><i class="fa fa-phone"></i></p>
+                           </div>
+                           <div class="step_infor">
+                              <p class="step_head">Need Help</p>
+                              <p class="step_cont">987 654 3210</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-3 col-md-6">
+                     <div class="full">
+                        <div class="process_blog">
+                           <div class="step_no">
+                              <p><i class="fa fa-usd"></i></p>
+                           </div>
+                           <div class="step_infor">
+                              <p class="step_head">Money Back</p>
+                              <p class="step_cont">Guarantee</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-3 col-md-6">
+                     <div class="full">
+                        <div class="process_blog">
+                           <div class="step_no">
+                              <p><i class="fa fa-briefcase"></i></p>
+                           </div>
+                           <div class="step_infor">
+                              <p class="step_head">30 Days Return</p>
+                              <p class="step_cont">Service</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="footer_bottom">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-12">
+                     <div class="footer-copyright">
+                        <p>Rufam by <a href="https://html.design/" title="html.design">html.design</a>. All rights reserved.</p>
+                        <a href="#" id="back-to-top" class="scrollup"><i class="fa fa-chevron-up"></i></a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </footer>
+      <!-- end footer -->
+      <!-- Javascript files-->
+      <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/jquery.min.js"></script>
+      <script src="js/popper.min.js"></script>
+      <script src="js/bootstrap.bundle.min.js"></script>
+      <script src="js/jquery-3.0.0.min.js"></script>
+      <script src="js/plugin.js"></script>
+      <!-- Revolution Js Files -->
+      <script src="js/revolution/js/jquery.themepunch.tools.min.js"></script>
+      <script src="js/revolution/js/jquery.themepunch.revolution.min.js"></script>
+      <script src="js/slider-setting.js"></script>
+      <!-- Slider Revolution 5.0 Extensions -->
+      <script src="js/revolution/js/extensions/revolution.extension.actions.min.js"></script>
+      <script src="js/revolution/js/extensions/revolution.extension.carousel.min.js"></script>
+      <script src="js/revolution/js/extensions/revolution.extension.kenburn.min.js"></script>
+      <script src="js/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+      <script src="js/revolution/js/extensions/revolution.extension.migration.min.js"></script>
+      <script src="js/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+      <script src="js/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
+      <script src="js/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+      <script src="js/revolution/js/extensions/revolution.extension.video.min.js"></script>
+      <!-- End Revolution Slider Extensions -->
+      <!-- sidebar -->
+      <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+      <script src="js/custom.js"></script>
+   
+  <script type='text/javascript' style='display:none;' async>
+__ez.queue.addFile('/detroitchicago/edmonton.webp', '/detroitchicago/edmonton.webp?a=a&cb=0&shcb=34', true, ['/detroitchicago/minneapolis.js'], true, false, false, false);
+__ez.queue.addFile('/porpoiseant/jellyfish.webp', '/porpoiseant/jellyfish.webp?a=a&cb=0&shcb=34', false, [], true, false, false, false);
+</script>
+
+<script>var _audins_dom="html_design",_audins_did=317139;__ez.queue.addDelayFunc("audins.html","__ez.script.add", "../../../go.ezoic.net/detroitchicago/audins0d9f.js?cb=195-0");</script><noscript><div style="display:none;"><img src="../../../pixel.quantserve.com/pixel/p-31iz6hfFutd16d537.gif?labels=Domain.html_design,DomainId.317139" border="0" height="1" width="1" alt="Quantcast"/></div></noscript>
+<script type="text/javascript" data-cfasync="false"></script>
+<script>__ez.queue.addFile('../../tardisrocinante/vitals.js', '../../tardisrocinante/vitals5038.js?gcb=0&amp;cb=3', false, ['/detroitchicago/minneapolis.js'], true, false, true, false);</script>
+<script>__ez.queue.addFile('../../beardeddragon/drake.js', '../../beardeddragon/drake6190.js?gcb=0&amp;cb=4', false, [], true, false, true, false);</script></body>
+<!-- Mirrored from html.design/demo/rufam/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 18 Jun 2022 09:34:21 GMT -->
+</html>

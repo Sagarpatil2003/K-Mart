@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- inner page banner -->
+    <div class="section inner_banner">
+        <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="full">
+                    <h3>Login</h3>
+                    <ul class="breadcrum">
+                        <li><a href="{% url 'home_page' %}">Home</a></li>
+                        <li>&gt;</li>
+                        <li>Login</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <!-- end inner page banner -->
+    <!-- section -->
+    <div id="content-page" class="section main-content-box my-account">
+        <div class="container">
+            <div class="row">
+                <div class="offset-lg-3 col-lg-6 col-md-12">
+                    <div class="heading_lgrg">
+                        <h2>Login</h2>
+                    </div>
+                    <div class="coustomer-login-box">
+                        <form method="POST" action="">
+                            {% csrf_token %}
+                            <div class="row">
+                                {{ form }}
+                                <div class="col-md-12">
+                                    <div class="center"><button type="submit" class="btn btn-login hover-btn"><span>Create Account</span></button></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="center">
+                                        <a class="acount_title" href="{% url 'LoginView' %}">Login</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end section -->
+{% endblock content %}

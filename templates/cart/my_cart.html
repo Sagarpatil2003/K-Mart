@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- inner page banner -->
+      <div class="section inner_banner">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="full">
+                     <h3>My Cart</h3>
+                     <ul class="breadcrum">
+                        <li><a href="{% url 'home_page' %}">Home</a></li>
+                        <li>&gt;</li>
+                        <li>My Cart</li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- end inner page banner -->
+      <!-- section -->
+      <div id="content-page" class="section main-content-box shopping-cart-box">
+         <div class="container-fluid limit-box">
+            {% if cart_products  %}
+               <div class="row">
+                  <div class="col-12">
+                     <div class="table-responsive">
+                        <table class="table">
+                           {% comment %} <caption>Enjoy <strong>Free Shipping</strong> every day on orders over $65 </caption> {% endcomment %}
+                           <thead>
+                              <tr>
+                                 <th class="w-50" scope="col">Product</th>
+                                 <th class="text-center" scope="col">Quantity</th>
+                                 <th class="d-none d-sm-table-cell" scope="col">Price</th>
+                                 <th class="d-none d-sm-table-cell" scope="col">Total</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+
+                              {% for cart_product in cart_products %}
+                                 <tr>
+                                 <th scope="row">
+                                       <div class="s-cart-box">
+                                          <div class="product-item-info media">
+                                             <div class="product-item-photo mr-3 d-none d-md-block">
+                                             <div class="item-gallery">
+                                                   <a href="#"> <img src="{{ cart_product.product.cover_image.url }}" alt=""/> </a>
+                                             </div>
+                                             </div>
+                                             <div class="media-body">
+                                             <a href="detail.html" class="h6">{{ cart_product.product.name|title }}</a>
+                                             <div class="small">Size: {{ cart_product.variation.name }} </div>
+                                             <div class="mb-1"> <span class="d-inline d-sm-none small">Price: <span class="text-theme">₹{{ cart_product.product.price }}</span></span> </div>
+                                             <div class="btn-group btn-group-sm">
+                                                   <button class="btn btn-light py-0 d-none d-md-block">Move to wishlist</button>
+                                                   <a href="{% url 'delete_cart_item_view' cart_id=cart_product.id %}" class="btn btn-light py-0">Remove</a>
+                                             </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                 </th>
+
+                                 <td class="text-center">
+                                       <div class="form-group input-group-qty d-inline-flex">
+                                          <div class="text-theme">{{ cart_product.quantity }}</div>
+                                       </div>
+                                       <div class="d-block d-sm-none">
+                                          <small>Subtotal </small>
+                                          <div class="text-theme">₹{{ cart_product.sub_total }}</div>
+                                       </div>
+                                 </td>
+                                 <td class="d-none d-sm-table-cell">
+                                       <div class="price-box"> <span>₹{{ cart_product.product.price }}</span> </div>
+                                 </td>
+                                 <td class="d-none d-sm-table-cell">
+                                       <div class="price-box"> <span>₹{{ cart_product.sub_total }}</span> </div>
+                                 </td>
+                                 </tr>
+                              {% endfor %}
+
+
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+               <div class="row my-5">
+                  <div class="col-lg-4 col-sm-6">
+                     <div class="coupon-box">
+                        <h3>Coupon Code</h3>
+                        <p>Enter your coupon code if you have one.</p>
+                        <div class="input-group input-group-sm">
+                           <input class="form-control" placeholder="Enter your coupon code" aria-label="Coupon code" type="text"/>
+                           <div class="input-group-append">
+                              <button class="btn btn-theme" type="button">Apply Coupon</button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-4 col-sm-6">
+                     <div class="gift-box">
+                        <h3>Gift Voucher</h3>
+                        <p>Enter your Gift Voucher if you have one.</p>
+                        <div class="input-group input-group-sm">
+                           <input class="form-control" placeholder="Enter your voucher code" aria-label="Coupon code" type="text"/>
+                           <div class="input-group-append">
+                              <button class="btn btn-theme" type="button">Apply Voucher</button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-4 col-sm-12">
+                     <div class="order-box">
+                        <h3>Order summary</h3>
+                        <div class="d-flex">
+                           <h4>Sub Total</h4>
+                           <div class="ml-auto">₹{{ sub_total }}</div>
+                        </div>
+                        <hr class="my-1"/>
+                        <div class="d-flex">
+                           <h4>Coupon Discount</h4>
+                           <div class="ml-auto"> ₹0</div>
+                        </div>
+                        <div class="d-flex">
+                           <h4>Shipping Cost</h4>
+                           <div class="ml-auto">₹{{ shipping }} </div>
+                        </div>
+                        <hr/>
+                        <div class="d-flex gr-total">
+                           <h5>Grand Total</h5>
+                           <div class="ml-auto h5">₹{{ grand_total }} </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-12 d-flex shopping-box"> <a href="index-2.html" class="btn btn-default">Continue Shopping</a> <a href="{% url 'checkout' %}" class="ml-auto btn btn-primary">Checkout</a> </div>
+               </div>
+            {% else %}
+            <div class="row">
+               <span class="text-info">You don't have any product in your cart.</span>
+               <div class="col-12 d-flex shopping-box"> <a href="{% url 'home_page' %}" class="btn btn-default">Continue Shopping</a></div>
+            </div>
+            {% endif %}
+         </div>
+      </div>
+      <!-- end section -->
+{% endblock content %}

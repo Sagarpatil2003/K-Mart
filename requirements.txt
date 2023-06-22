@@ -1,0 +1,4 @@
+Django==4.2.1
+pillow==9.5.0
+djangorestframework==3.14.0
+razonpay == 2.8.6
